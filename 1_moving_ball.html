@@ -51,9 +51,23 @@
     // above needed to clear canvas before drawing each time
     drawBall()
     //if ball hits top or bottom, reverse direction
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+    //if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+    //    dy = -dy;
+    //}
+    //now ball can hit sides or top.
+    //if hits paddle bounces up
+    //if hits bottom game over alert & reload
+    if(y + dy < ballRadius) {
         dy = -dy;
+    } else if(y + dy > canvas.height-ballRadius) {
+      if(x > paddleX && x < paddleX + paddleWidth) {
+          dy = -dy;
+      } else {
+        alert("GAME OVER");
+        document.location.reload();
+      }
     }
+
     //if ball hits left or right, reverse direction
     if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
         dx = -dx;
