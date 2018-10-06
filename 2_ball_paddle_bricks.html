@@ -118,6 +118,7 @@
         paddleX -= paddleStepSize;
     }
     drawPaddle();
+    collisionDetection();
   }
 
   document.addEventListener("keydown", keyDownHandler, false);
@@ -139,6 +140,18 @@
       else if(e.keyCode == 37) {
           leftPressed = false;
       }
+  }
+
+  //detect collision between ball and bricks. reverse ball direction
+  function collisionDetection() {
+    for(var c=0; c<brickColumnCount; c++) {
+      for(var r=0; r<brickRowCount; r++) {
+        var b = bricks[c][r];
+        if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+          dy = -dy;
+        }
+      }
+    }
   }
 
   setInterval(draw, 10);
