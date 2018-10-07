@@ -7,16 +7,25 @@
     	* { padding: 0; margin: 0; }
     	canvas { background: #eee; display: block; margin: 0 auto; }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 <body>
 
 <canvas id="myCanvas" width="480" height="320"></canvas>
 <div id="messages"></div>
+<button class="play">Play</button>
+<button class="pause">Pause</button>
+<button class="restart">Restart</button>
+<div id="status"></div>
+<div id="time"></div>
 
 <script>
 	// JavaScript code goes here
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
+
+  var isPaused = true;
+  var time = 0;
 
   var x = canvas.width/2;
   var y = canvas.height-30;
@@ -49,7 +58,45 @@
   //nb: status determines if the brick is 'there' or not.
   var score = 0;
   var lives = 3;
-  var message = "START";
+  var message = "";
+
+  var t = window.setInterval(function() {
+    if(isPaused && time ==0) {
+      console.log("drawing for startup once only.")
+      //draw once @ start
+      draw();
+      time++;
+    }
+    if(!isPaused) {
+      time++;
+      draw();
+    }
+    document.getElementById("status").innerHTML = "isPaused: " + isPaused;
+    document.getElementById("time").innerHTML = "time: " + time;
+  }, 10);
+
+  //with jquery
+  $('.pause').on('click', function(e) {
+    e.preventDefault();
+    isPaused = true;
+    console.log("pause clicked.");
+  });
+
+  $('.play').on('click', function(e) {
+    e.preventDefault();
+    if(!lives){
+      document.location.reload();
+    }
+    isPaused = false;
+    console.log("play clicked.");
+  });
+  $('.restart').on('click', function(e) {
+    e.preventDefault();
+    console.log("restart clicked.");
+    document.location.reload();//this reloads entire page.
+  });
+
+
 
   function drawScore() {
       ctx.font = "16px Arial";
@@ -119,19 +166,21 @@
       if(x > paddleX && x < paddleX + paddleWidth) {
           dy = -dy;
       } else {
-        //alert("GAME OVER");
         lives--;
         if(!lives) {
-            alert("GAME OVER");
-            document.getElementById("messages").innerHTML = "GAME OVER";
-            document.location.reload();
+          isPaused = true;
+          //alert("GAME OVER");
+          message = "GAME OVER";
+          isPaused = true;
+          document.getElementById("messages").innerHTML = "GAME OVER";
+          //document.location.reload();//this reloads entire page.
         } else {
-            x = canvas.width/2;
-            y = canvas.height-30;
-            //reset starting position.
-            dx = 2;
-            dy = -2;
-            paddleX = (canvas.width-paddleWidth)/2;
+          x = canvas.width/2;
+          y = canvas.height-30;
+          //reset starting position.
+          dx = 2;
+          dy = -2;
+          paddleX = (canvas.width-paddleWidth)/2;
         }
       }
     }
@@ -198,7 +247,7 @@
             if(score == brickRowCount*brickColumnCount) {
               document.getElementById("messages").innerHTML = "YOU WIN, CONGRATULATIONS!";
               message = "YOU WIN, CONGRATULATIONS!";
-              document.location.reload();
+              //document.location.reload();
             }
           }
         }
@@ -206,7 +255,7 @@
     }
   }
 
-  setInterval(draw, 10);
+  //setInterval(draw, 10);
 </script>
 
 </body>
