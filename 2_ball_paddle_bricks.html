@@ -11,6 +11,7 @@
 <body>
 
 <canvas id="myCanvas" width="480" height="320"></canvas>
+<div id="messages"></div>
 
 <script>
 	// JavaScript code goes here
@@ -103,7 +104,8 @@
       if(x > paddleX && x < paddleX + paddleWidth) {
           dy = -dy;
       } else {
-        alert("GAME OVER");
+        //alert("GAME OVER");
+        document.getElementById("messages").innerHTML = "GAME OVER";
         //reset starting position.
         dx = 2;
         dy = -2;
@@ -161,6 +163,10 @@
             dy = -dy;
             b.status = 0;
             score++;
+            if(score == brickRowCount*brickColumnCount) {
+                        document.getElementById("messages").innerHTML = "YOU WIN, CONGRATULATIONS!";
+                        document.location.reload();
+            }
           }
         }
       }
