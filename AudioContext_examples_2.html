@@ -1,0 +1,52 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>The HTML5 Herald</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <button class="play1">Play1</button>
+  <button class="play2">Play2</button>
+
+  <script>
+
+  $('.play1').on('click', function(e) {
+    console.log("play1 clicked.");
+    var context = new AudioContext();
+    var o = context.createOscillator();
+    var  g = context.createGain();
+    o.connect(g);
+    g.connect(context.destination);
+    var frequency = 261.6
+    o.frequency.value = frequency
+    o.start(0)
+    g.gain.exponentialRampToValueAtTime(
+      0.00001, context.currentTime + 0.1
+    )
+  });
+
+  $('.play2').on('click', function(e) {
+    console.log("play2 clicked.");
+    var context = new AudioContext();
+    var o = context.createOscillator();
+    var  g = context.createGain();
+    o.connect(g);
+    g.connect(context.destination);
+    var frequency = 440.0
+    o.frequency.value = frequency
+    o.start(0)
+    g.gain.exponentialRampToValueAtTime(
+      0.00001, context.currentTime + 0.1
+    )
+  });
+
+  </script>
+</body>
+</html>
