@@ -1,1 +1,22 @@
 http://h3manth.com/content/html5-canvas-full-screen-and-full-page
+
+
+if(relativeX > paddleWidth/2 && relativeX < canvas.width-paddleWidth/2)
+
+tempX = paddleX + dist;
+if(tempX > paddleWidth/2 && tempX < canvas.width-paddleWidth/2){
+  if (dist>0){
+    paddleX  = paddleX + paddleStepSize;
+  } else {
+    paddleX  = paddleX - paddleStepSize;
+  }
+}
+
+
+//move and draw paddles
+if(rightPressed && paddleX < canvas.width-paddleWidth) {
+    paddleX += paddleStepSize;
+}
+else if(leftPressed && paddleX > 0) {
+    paddleX -= paddleStepSize;
+}
